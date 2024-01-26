@@ -12,7 +12,7 @@ def main():
     #rospy.init_node('ply_to_pointcloud_publisher', anonymous=True)
     
     # Change the file path to the location of your .ply file
-    ply_file_path = '/dev_ws/src/studio_II_project/custom_pkg/scripts/chair.ply'
+    ply_file_path = '/dev_ws/src/custom_pkg/scripts/chair.ply'
 
     o3d_cloud = read_ply_file(ply_file_path)
 

@@ -54,7 +54,7 @@ def set_rotation(point, target):
 
 
 # Change the file path to the location of your .ply file
-ply_file_path = '/dev_ws/src/studio_II_project/custom_pkg/scripts/chair.ply'
+ply_file_path = '/dev_ws/src/custom_pkg/scripts/chair.ply'
 
 cloud = o3d.io.read_point_cloud(ply_file_path)
 
@@ -83,9 +83,7 @@ for z_value, group_points in grouped_points.items():
 
 # Initialize a list to store the selected points for drawing lines
 selected_points = []
-# selected_points2 = []
 
-# count = 0
 # Iterate through the groups, print the data, and extract equidistant points
 grouped_points_list = list(grouped_points.items())
 
@@ -102,13 +100,10 @@ for i in range(0, len(grouped_points), interval):
 
 # Convert the selected points to a NumPy array for 3D plotting
 selected_points = np.array(selected_points)
-# selected_points2 = np.array(selected_points2)
 
 # Ensure selected_points is a 2D array
 if len(selected_points.shape) == 1:
     selected_points = np.expand_dims(selected_points, axis=0)
-# if len(selected_points2.shape) == 1:
-#     selected_points2 = np.expand_dims(selected_points2, axis=0)
     
 center = np.mean(all_points, axis=0)
 
@@ -119,11 +114,11 @@ ax = fig.add_subplot(111, projection='3d')
 # Scatter plot of the selected points
 ax.scatter(selected_points[:, 0], selected_points[:, 1], selected_points[:, 2], marker='o', color='red', label='Selected Points')
 ax.scatter(center[0], center[1], center[2], marker='x', color='green', s=100, label='Center')
-# ax.scatter(selected_points2[:, 0], selected_points2[:, 1], selected_points2[:, 2], marker='o', color='blue', label='Selected Points2')
 
 # Separate points based on z values
 z_values = set(point[2] for point in selected_points)
 
+sorted_points = []
 
 # Plot lines for points with the same z value
 for z in z_values:
@@ -133,11 +128,14 @@ for z in z_values:
     min_x_point = min(z_points, key=lambda p: p[0])
     max_x_point = max(z_points, key=lambda p: p[0])
 
+    sorted_points.append([min_y_point, min_x_point, max_y_point, max_x_point])
+
+    print(sorted_points)
+
     # Connect points with lines
     ax.plot([min_y_point[0], min_x_point[0], max_y_point[0], max_x_point[0], min_y_point[0]],
-            [min_y_point[1], min_x_point[1], max_y_point[1], max_x_point[1], min_y_point[1]],
-            [z, z, z, z, z], c='blue', marker='o')
-
+                [min_y_point[1], min_x_point[1], max_y_point[1], max_x_point[1], min_y_point[1]],
+                [z, z, z, z, z], c='blue', marker='o')
 
 for i in range(len(selected_points)):
     direction = center - selected_points[i]
@@ -150,24 +148,6 @@ for i in range(len(selected_points)):
     ax.quiver(selected_points[i, 0], selected_points[i, 1], selected_points[i, 2], 
               rotated_direction[0], rotated_direction[1], rotated_direction[2],
               color='blue', length=0.1)
-# # Set the rotation for each point
-# rotations = [set_rotation(point, center) for point in selected_points]
-
-# # Apply the rotation and plot the points after rotation
-# for i, (theta, phi) in enumerate(rotations):
-#     rotation_matrix = np.array([
-#         [np.cos(theta), -np.sin(theta), 0],
-#         [np.sin(theta), np.cos(theta), 0],
-#         [0, 0, 1]
-#     ]) @ np.array([
-#         [np.cos(phi), 0, np.sin(phi)],
-#         [0, 1, 0],
-#         [np.sin(phi), 0, np.cos(phi)]
-#     ])
-#     rotated_point = rotation_matrix @ selected_points[i]
-#     ax.quiver(selected_points[i, 0], selected_points[i, 1], selected_points[i, 2], 
-#               rotated_point[0] - selected_points[i, 0], rotated_point[1] - selected_points[i, 1], rotated_point[2] - selected_points[i, 2],
-#               color='blue', length=0.1, arrow_length_ratio=0.1)
 
 
 # Setting labels

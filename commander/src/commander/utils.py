@@ -53,7 +53,7 @@ def load_scene(frame_id: str = 'base_link') -> None:
     )
     co.id = 'ground_cube'
     co.operation = CollisionObject.ADD
-    co.primitives.append(SolidPrimitive(type=SolidPrimitive.BOX, dimensions=[0.635, 0.760, 0.690]))
+    co.primitives.append(SolidPrimitive(type=SolidPrimitive.BOX, dimensions=[1.5, 0.760, 0.690]))
     scene.world.collision_objects.append(co)
 
     oc = ObjectColor()

@@ -42,7 +42,7 @@ CAPTURE = True
 
 rospy.init_node("reconstruction")
 
-ply_file_path = rospy.get_param("~ply_file_path", "/dev_ws/src/software_II_project/custom_pkg/captures/raw.ply")
+ply_file_path = rospy.get_param("~ply_file_path", "/dev_ws/src/custom_pkg/captures/raw.ply")
 
 load_scene()
 
@@ -112,7 +112,7 @@ def execute_joint_states(joint_position):
 
 # Read joint positions from the YAML file
 #yaml_filename = os.path.join(current_directory, 'joint_positions.yaml')
-yaml_filename = "/dev_ws/src/software_II_project/custom_pkg/config/joint_positions.yaml"
+yaml_filename = "/dev_ws/src/custom_pkg/config/joint_positions.yaml"
 
 try:
     with open(yaml_filename, 'r') as yaml_file:
